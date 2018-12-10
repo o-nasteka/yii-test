@@ -7,6 +7,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 
+use app\models\EntryForm;
+
 /**
  * Site controller
  */
@@ -97,4 +99,6 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+
 }

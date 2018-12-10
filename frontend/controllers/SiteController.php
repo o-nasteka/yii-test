@@ -13,6 +13,8 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
+use app\models\Tasks;
+
 /**
  * Site controller
  */
@@ -211,5 +213,33 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * @return string
+     * Entry Form
+     */
+    public function actionTasks()
+    {
+        $model = new Tasks();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+
+            // messages
+            Yii::$app->session->setFlash('taskFormSubmitted');
+
+            return $this->render('tasks', [
+
+                'model' => $model,
+
+            ]);
+
+
+        } else {
+            // либо страница отображается первый раз, либо есть ошибка в данных
+            return $this->render('tasks', [
+                'model' => $model
+            ]);
+        }
     }
 }
