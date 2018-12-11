@@ -2,6 +2,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui;
+use yii\helpers\ArrayHelper;
+
 
 $this->title = 'Tasks Form';
 ?>
@@ -48,38 +50,70 @@ $this->title = 'Tasks Form';
 
 <?php else: ?>
 
+<!-- -->
+
 <?php $form = ActiveForm::begin(); ?>
 
-<?= $form->field($model, 'company_name') ?>
+    <?= $form->field($model, "formCategory")->dropDownList([
+                    1 => 'form1',
+                    2 => 'form2'
+                ],
+            [
+                    'class'=>'form-control',
+                'prompt'=>'Please Select',
+                'required'=>true
+            ])->label('Выберите форму')
+    ?>
 
-<?= $form->field($model, 'position') ?>
+   
+    <?php ActiveForm::end(); ?>
 
-<?= $form->field($model, 'position_description') ?>
+    <!-- -->
 
-<?= $form->field($model, 'salary') ?>
+    <div id="form1" hidden>
+        <h3>form1</h3>
+<!-- form1 -->
+        <?php $form = ActiveForm::begin(); ?>
 
+        <?= $form->field($model, 'company_name') ?>
 
-<?= $form->field($model, 'date_start')->widget(\yii\jui\DatePicker::class, [
-    'language' => 'ru',
-    'dateFormat' => 'dd-MM-yyyy',
-]) ?>
+        <?= $form->field($model, 'position') ?>
 
-<?= $form->field($model, 'date_end')->widget(\yii\jui\DatePicker::class, [
-    'language' => 'ru',
-    'dateFormat' => 'dd-MM-yyyy',
-]) ?>
+        <?= $form->field($model, 'position_description') ?>
 
-<?= $form->field($model, 'date_publication')->widget(\yii\jui\DatePicker::class, [
-    'language' => 'ru',
-    'dateFormat' => 'dd-MM-yyyy',
-]) ?>
+        <?= $form->field($model, 'salary') ?>
 
 
+        <?= $form->field($model, 'date_start')->widget(\yii\jui\DatePicker::class, [
+            'language' => 'ru',
+            'dateFormat' => 'dd-MM-yyyy',
+        ]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
-    </div>
+        <?= $form->field($model, 'date_end')->widget(\yii\jui\DatePicker::class, [
+            'language' => 'ru',
+            'dateFormat' => 'dd-MM-yyyy',
+        ]) ?>
 
-<?php ActiveForm::end(); ?>
+        <?= $form->field($model, 'date_publication')->widget(\yii\jui\DatePicker::class, [
+            'language' => 'ru',
+            'dateFormat' => 'dd-MM-yyyy',
+        ]) ?>
+
+
+        <div class="form-group">
+            <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+</div>
+<!-- form1 end -->
+
+<!-- form2 -->
+<div id="form2" hidden>
+    <h3>form2</h3>
+</div>
+<!-- form2 end -->
+
+
 
 <?php endif; ?>

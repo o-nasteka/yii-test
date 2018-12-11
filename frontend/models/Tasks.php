@@ -16,6 +16,7 @@ class Tasks extends ActiveRecord
 //    public $date_end;
 //    public $date_publication;
 //    public $email;
+    public $formCategory;
 
     public static function tableName()
     {

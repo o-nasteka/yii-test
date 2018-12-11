@@ -14,6 +14,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
 use app\models\Tasks;
+use app\models\CategoryForm;
 
 /**
  * Site controller
@@ -228,6 +229,8 @@ class SiteController extends Controller
             // messages
             Yii::$app->session->setFlash('taskFormSubmitted');
 
+
+
             return $this->render('tasks', [
 
                 'model' => $model,
@@ -242,4 +245,6 @@ class SiteController extends Controller
             ]);
         }
     }
+
+
 }

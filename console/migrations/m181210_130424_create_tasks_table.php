@@ -16,9 +16,9 @@ class m181210_130424_create_tasks_table extends Migration
             'position' => $this->string()->notNull(),
             'position_description' => $this->text(),
             'salary' => $this->integer(),
-            'date_start' => $this->dateTime(),
-            'date_end' => $this->dateTime(),
-            'date_publication' => $this->dateTime(),
+            'date_start' => $this->string()->notNull(),
+            'date_end' => $this->string()->notNull(),
+            'date_publication' => $this->string()->notNull(),
         ]);
 
     }
