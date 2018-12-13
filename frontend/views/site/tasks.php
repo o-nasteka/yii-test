@@ -3,14 +3,15 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui;
 use yii\helpers\ArrayHelper;
-
+use yii\bootstrap\Modal;
 
 $this->title = 'Tasks Form';
 ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-<?php if (Yii::$app->session->hasFlash('taskFormSubmitted')): ?>
+<div id="message-bl" style="display: none;">
+<?php// if (Yii::$app->session->hasFlash('taskFormSubmitted')): ?>
     <div class="row">
 
         <div class="col-lg-5">
@@ -20,9 +21,10 @@ $this->title = 'Tasks Form';
                 <div class="panel-heading">Message Sent</div>
 
                 <div class="panel-body">
+                    <?php // var_dump($model); ?>
 
                     <ul>
-                        <li><label>Название компании</label>: <?= Html::encode($model->company_name) ?></li>
+                        <li><label>Название компании</label>: </li>
                         <li><label>Должность</label>: <?= Html::encode($model->position) ?></li>
                         <li><label>Описание должности</label>: <?= Html::encode($model->position_description) ?></li>
                         <li><label>Размер з/п</label>: <?= Html::encode($model->salary) ?></li>
@@ -47,8 +49,8 @@ $this->title = 'Tasks Form';
         </div>
 
     </div>
-
-<?php else: ?>
+</div>
+<?php // else: ?>
 
 <!-- -->
 
@@ -73,7 +75,12 @@ $this->title = 'Tasks Form';
     <div id="form1" hidden>
         <h3>form1</h3>
 <!-- form1 -->
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin([
+            'id' => 'form-input1'
+//            'options' => [
+//                'onsubmit' => 'sendAjax(this, taskAction)'
+//            ],
+        ]); ?>
 
         <?= $form->field($model, 'company_name') ?>
 
@@ -84,17 +91,26 @@ $this->title = 'Tasks Form';
         <?= $form->field($model, 'salary') ?>
 
 
-        <?= $form->field($model, 'date_start')->widget(\yii\jui\DatePicker::class, [
+        <?= $form->field($model, 'date_start')
+            ->textInput(['autocomplete' => 'off',])
+            ->widget(\yii\jui\DatePicker::class,
+                [
+                    'language' => 'ru',
+                    'dateFormat' => 'dd-MM-yyyy',
+
+
+        ]) ?>
+
+        <?= $form->field($model, 'date_end')
+            ->textInput(['autocomplete' => 'off'])
+            ->widget(\yii\jui\DatePicker::class, [
             'language' => 'ru',
             'dateFormat' => 'dd-MM-yyyy',
         ]) ?>
 
-        <?= $form->field($model, 'date_end')->widget(\yii\jui\DatePicker::class, [
-            'language' => 'ru',
-            'dateFormat' => 'dd-MM-yyyy',
-        ]) ?>
-
-        <?= $form->field($model, 'date_publication')->widget(\yii\jui\DatePicker::class, [
+        <?= $form->field($model, 'date_publication')
+            ->textInput(['autocomplete' => 'off', 'disabled'])
+            ->widget(\yii\jui\DatePicker::class, [
             'language' => 'ru',
             'dateFormat' => 'dd-MM-yyyy',
         ]) ?>
@@ -115,5 +131,18 @@ $this->title = 'Tasks Form';
 <!-- form2 end -->
 
 
+<?php // endif; ?>
 
-<?php endif; ?>
+<!-- Modal -->
+<?php
+Modal::begin([
+
+]);
+
+echo "<div class='messages'>
+    Ваше задание успешно размещено!
+</div>";
+
+Modal::end();
+
+?>

@@ -16,7 +16,10 @@ class Tasks extends ActiveRecord
 //    public $date_end;
 //    public $date_publication;
 //    public $email;
+//    public $today;
     public $formCategory;
+
+
 
     public static function tableName()
     {
@@ -25,17 +28,23 @@ class Tasks extends ActiveRecord
 
     public function rules()
     {
+
         return [
-            [['company_name', 'position', 'date_end'], 'required'],
+            [['company_name', 'position', 'date_end'], 'required', 'message' => 'Заполните это поле'],
             [['company_name'],'string', 'max' => 255],
             [['position'], 'string', 'max' => 255],
             [['position_description'], 'string', 'max' => 255],
-            [['salary'], 'string', 'max' => 255],
+            [['salary'], 'integer', 'max' => 999999],
             [['date_start'], 'date', 'format' => 'php:d-m-Y'],
             [['date_end'], 'date', 'format' => 'php:d-m-Y'],
             [['date_publication'], 'date', 'format' => 'php:d-m-Y'],
-
         ];
+    }
+
+    public function validateDate()
+    {
+        $today = date("d-m-Y");
+        return $today;
     }
 
 

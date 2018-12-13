@@ -230,20 +230,34 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('taskFormSubmitted');
 
 
-
             return $this->render('tasks', [
 
                 'model' => $model,
 
             ]);
+        }
 
+        // Ajax
 
-        } else {
+        if(\Yii::$app->request->isAjax){
+            Yii::$app->mailer->compose()
+                ->setTo(Yii::$app->params['adminEmail'])
+                ->setFrom(['o.nasteka@gmail.com' => 'Automatic request email'])
+                ->setSubject('Request a quote from ' . \Yii::$app->request->post('ContactForm')['name'])
+                ->setHtmlBody($this->render('eMail', ['request' => Yii::$app->request->post('ContactForm')]))
+                ->send();
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['key' => 'success', 'value' => "Thank you for contacting me. I will respond to you as soon as possible."];
+        }
+
+        else {
             // либо страница отображается первый раз, либо есть ошибка в данных
             return $this->render('tasks', [
                 'model' => $model
             ]);
         }
+
+
     }
 
 
