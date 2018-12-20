@@ -15,6 +15,7 @@ use frontend\models\ContactForm;
 
 use app\models\Tasks;
 use app\models\CategoryForm;
+use yii\web\Response;
 
 /**
  * Site controller
@@ -224,30 +225,13 @@ class SiteController extends Controller
     {
         $model = new Tasks();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
-
-            // messages
-            Yii::$app->session->setFlash('taskFormSubmitted');
-
+        if ( $model->load(Yii::$app->request->post()) ){
 
             return $this->render('tasks', [
 
                 'model' => $model,
 
             ]);
-        }
-
-        // Ajax
-
-        if(\Yii::$app->request->isAjax){
-            Yii::$app->mailer->compose()
-                ->setTo(Yii::$app->params['adminEmail'])
-                ->setFrom(['o.nasteka@gmail.com' => 'Automatic request email'])
-                ->setSubject('Request a quote from ' . \Yii::$app->request->post('ContactForm')['name'])
-                ->setHtmlBody($this->render('eMail', ['request' => Yii::$app->request->post('ContactForm')]))
-                ->send();
-            \Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['key' => 'success', 'value' => "Thank you for contacting me. I will respond to you as soon as possible."];
         }
 
         else {
@@ -257,8 +241,25 @@ class SiteController extends Controller
             ]);
         }
 
-
     }
 
+    public function actionSendmail()
+    {
+        $model = new Tasks();
 
+        if ($model->load(Yii::$app->request->post()) &&
+            $model->validate() &&
+            $model->save() &&
+            $model->contact(Yii::$app->params['adminEmail'])) //            $model->contact(Yii::$app->params['adminEmail'], 'comp_name', 'data-test'))
+        {
+
+            $success= ['success' => true];
+            return json_encode($success);
+        }
+
+        else {
+            $success= ['success' => false];
+        }
+        return json_encode($success);
+    }
 }

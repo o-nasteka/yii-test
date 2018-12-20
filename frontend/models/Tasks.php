@@ -15,7 +15,7 @@ class Tasks extends ActiveRecord
 //    public $date_start;
 //    public $date_end;
 //    public $date_publication;
-//    public $email;
+    public $email;
 //    public $today;
     public $formCategory;
 
@@ -47,5 +47,22 @@ class Tasks extends ActiveRecord
         return $today;
     }
 
+    public function contact($email)
+    {
+        $request = Yii::$app->request;
+        $company_name = $request->post('company_name');
+        if ($this->validate()) {
+
+            Yii::$app->mailer->compose()
+                ->setTo($email)
+                ->setFrom('Test@mail.local')
+                ->setSubject('Task')
+                ->setTextBody($company_name)
+                ->send();
+
+            return true;
+        }
+        return false;
+    }
 
 }

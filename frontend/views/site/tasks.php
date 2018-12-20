@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\bootstrap\Button;
 use yii\jui;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Modal;
@@ -10,47 +11,6 @@ $this->title = 'Tasks Form';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-<div id="message-bl" style="display: none;">
-<?php// if (Yii::$app->session->hasFlash('taskFormSubmitted')): ?>
-    <div class="row">
-
-        <div class="col-lg-5">
-
-            <div class="panel panel-default">
-
-                <div class="panel-heading">Message Sent</div>
-
-                <div class="panel-body">
-                    <?php // var_dump($model); ?>
-
-                    <ul>
-                        <li><label>Название компании</label>: </li>
-                        <li><label>Должность</label>: <?= Html::encode($model->position) ?></li>
-                        <li><label>Описание должности</label>: <?= Html::encode($model->position_description) ?></li>
-                        <li><label>Размер з/п</label>: <?= Html::encode($model->salary) ?></li>
-                        <li><label>Дата начала</label>: <?= Html::encode($model->date_start) ?></li>
-                        <li><label>Дата окончания</label>: <?= Html::encode($model->date_end) ?></li>
-                        <li><label>Дата размещения</label>: <?= Html::encode($model->date_publication) ?></li>
-                    </ul>
-
-                </div>
-
-            </div>
-
-            <div class="alert alert-success">
-
-                Your task is added!
-
-            </div>
-
-
-            <?= Html::a('Back', ['/site/tasks'], ['class'=>'btn btn-primary']) ?>
-
-        </div>
-
-    </div>
-</div>
-<?php // else: ?>
 
 <!-- -->
 
@@ -71,7 +31,16 @@ $this->title = 'Tasks Form';
     <?php ActiveForm::end(); ?>
 
     <!-- -->
-
+    <?php /*
+    echo Button::widget([
+            'id' => 'modal-btn',
+            'label' => 'Action',
+            'options' => [
+                    'class' => 'btn btn-primary',
+            ],
+        ]);
+    */
+    ?>
     <div id="form1" hidden>
         <h3>form1</h3>
 <!-- form1 -->
@@ -92,14 +61,11 @@ $this->title = 'Tasks Form';
 
 
         <?= $form->field($model, 'date_start')
-            ->textInput(['autocomplete' => 'off',])
+            ->textInput(['autocomplete' => 'off'])
             ->widget(\yii\jui\DatePicker::class,
-                [
-                    'language' => 'ru',
-                    'dateFormat' => 'dd-MM-yyyy',
-
-
-        ]) ?>
+                ['language' => 'ru',
+                    'dateFormat' => 'dd-MM-yyyy',])
+        ?>
 
         <?= $form->field($model, 'date_end')
             ->textInput(['autocomplete' => 'off'])
@@ -131,17 +97,21 @@ $this->title = 'Tasks Form';
 <!-- form2 end -->
 
 
-<?php // endif; ?>
-
+<!-- -->
+<!-- -->
 <!-- Modal -->
 <?php
 Modal::begin([
-
+    'id' => 'modal-messages',
+    'header' => '<h2>Задача отправлена!</h2>',
+    'footer' => '
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>',
 ]);
 
-echo "<div class='messages'>
-    Ваше задание успешно размещено!
-</div>";
+echo '<div class="alert alert-warning">
+    <strong>Отправлено на модерацию!</strong> <br> 
+    Ваше задание отправлено и в ближайшее время будет размещено!
+</div>';
 
 Modal::end();
 
