@@ -148,6 +148,7 @@ $(function() {
             success: function(res){
                 // console.log(JSON.parse(res));
                 console.log(res);
+                $('#form-input1')[0].reset();
                 $('#modal-messages').modal('show');
                 setTimeout(function() {
                     $('#modal-messages').modal('hide');

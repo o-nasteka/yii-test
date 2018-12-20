@@ -50,14 +50,33 @@ class Tasks extends ActiveRecord
     public function contact($email)
     {
         $request = Yii::$app->request;
-        $company_name = $request->post('company_name');
+//        $company_name = $request->post('company_name');
+        $tasks = $request->post('Tasks');
+
+        $company_name = $tasks['company_name'];
+        $position = $tasks['position'];
+        $position_description = $tasks['position_description'];
+        $salary = $tasks['salary'];
+        $date_start = $tasks['date_start'];
+        $date_end = $tasks['date_end'];
+        $date_publication = $tasks['date_publication'];
+
+        $msg = "Company name: $company_name  
+               Position:  $position
+               Position description: $position_description 
+               Salary: $salary
+               Data Start: $date_start  
+               Data End: $date_end
+               Data Publication: $date_publication  
+        ";
+
         if ($this->validate()) {
 
             Yii::$app->mailer->compose()
                 ->setTo($email)
                 ->setFrom('Test@mail.local')
                 ->setSubject('Task')
-                ->setTextBody($company_name)
+                ->setHtmlBody($msg)
                 ->send();
 
             return true;
